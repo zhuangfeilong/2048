@@ -173,7 +173,7 @@ document.addEventListener('touchend', function (event) {
 
   var deltaX = endX - startX;
   var deltaY = endY - startY;
-  if (Math.abs(deltaX) < 0.15 * documentWidth && Math.abs(deltaY) < 0.15 * documentWidth) {
+  if (Math.abs(deltaX) < 0.1 * documentWidth && Math.abs(deltaY) < 0.1 * documentWidth) {
     // 判断一次滑动的正常状态
     return;
   }
