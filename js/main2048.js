@@ -160,9 +160,9 @@ document.addEventListener('touchstart', function (event) {
   startX = event.touches[0].pageX;
   startY = event.touches[0].pageY;
 })
-document.addEventListener('touchmove',function() {
-  event.preventDefault();  
-})
+// document.addEventListener('touchmove',function() {
+//   event.preventDefault();  
+// })
 document.addEventListener('touchend', function (event) {
   endX = event.changedTouches[0].pageX;
   endY = event.changedTouches[0].pageY;
