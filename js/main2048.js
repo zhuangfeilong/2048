@@ -42,7 +42,7 @@ function init() {
 }
 // 针对移动端屏幕做像素尺寸调整以适应屏幕大小
 function prepareForMobile() {
-  if (document.Width > 500) {
+  if (documentWidth > 500) {
     containerWidth = 500;
     cellSideWidth = 100;
     cellSpace = 20;
