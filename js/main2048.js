@@ -118,15 +118,12 @@ function isgameover() {
 }
 // 数字向左移动或合并时的变化
 function moveLeft() {
-
   if (!canMoveLeft(board))
     return false;
-
   //moveLeft
   for (var i = 0; i < 4; i++)
     for (var j = 1; j < 4; j++) {
       if (board[i][j] != 0) {
-
         for (var k = 0; k < j; k++) {
           if (board[i][k] == 0 && noBlockHorizontal(i, k, j, board)) {
             //move
@@ -147,7 +144,6 @@ function moveLeft() {
         }
       }
     }
-
   setTimeout("updateBoardView()", 200);
   return true;
 }
@@ -155,7 +151,6 @@ function moveLeft() {
 function moveRight() {
   if (!canMoveRight(board))
     return false;
-
   //moveRight
   for (var i = 0; i < 4; i++)
     for (var j = 2; j >= 0; j--) {
@@ -178,16 +173,13 @@ function moveRight() {
         }
       }
     }
-
   setTimeout("updateBoardView()", 200);
   return true;
 }
 // 数字向上移动或合并时的变化
 function moveUp() {
-
   if (!canMoveUp(board))
     return false;
-
   //moveUp
   for (var j = 0; j < 4; j++)
     for (var i = 1; i < 4; i++) {
@@ -210,16 +202,13 @@ function moveUp() {
         }
       }
     }
-
   setTimeout("updateBoardView()", 200);
   return true;
 }
-
 // 数字向下移动或合并时的变化
 function moveDown() {
   if (!canMoveDown(board))
     return false;
-
   //moveDown
   for (var j = 0; j < 4; j++)
     for (var i = 2; i >= 0; i--) {
@@ -242,7 +231,6 @@ function moveDown() {
         }
       }
     }
-
   setTimeout("updateBoardView()", 200);
   return true;
 }
