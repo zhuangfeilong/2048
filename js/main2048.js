@@ -2,7 +2,12 @@ var board = new Array();
 var score = 0;
 var hasMerge = new Array();
 
+var startX = 0;
+var startY = 0;
+var endX = 0;
+var endY = 0;
 $(document).ready(function () {
+  prepareForMobile();
   newgame();
 });
 
@@ -15,6 +20,7 @@ function newgame() {
 
 }
 function init() {
+  // 初始化函数
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 4; j++) {
       var gridCell = $('#grid-cell-' + i + "-" + j);
@@ -34,7 +40,22 @@ function init() {
   updateBoardView();
   score = 0;
 }
+// 针对移动端屏幕做像素尺寸调整以适应屏幕大小
+function prepareForMobile() {
+  if (document.Width > 500) {
+    containerWidth = 500;
+    cellSideWidth = 100;
+    cellSpace = 20;
+  }
+  $("#container").css('width', containerWidth - 2 * cellSpace);
+  $("#container").css('height', containerWidth - 2 * cellSpace);
+  $("#container").css('padding', cellSpace);
+  $("#container").css('border-radius', containerWidth * 0.02);
 
+  $(".grid-cell").css('width', cellSideWidth);
+  $(".grid-cell").css('height', cellSideWidth);
+  $(".grid-cell").css('border-radius', cellSideWidth * 0.02);
+}
 function updateBoardView() {
 
   $(".number-cell").remove();
@@ -46,12 +67,12 @@ function updateBoardView() {
       if (board[i][j] == 0) {
         theNumberCell.css('width', '0px');
         theNumberCell.css('height', '0px');
-        theNumberCell.css('top', getPostTop(i, j) + 50);
-        theNumberCell.css('left', getPostLeft(i, j) + 50);
+        theNumberCell.css('top', getPostTop(i, j) + cellSideWidth / 2);
+        theNumberCell.css('left', getPostLeft(i, j) + cellSideWidth / 2);
       }
       else {
-        theNumberCell.css('width', '100px');
-        theNumberCell.css('height', '100px');
+        theNumberCell.css('width', cellSideWidth);
+        theNumberCell.css('height', cellSideWidth);
         theNumberCell.css('top', getPostTop(i, j));
         theNumberCell.css('left', getPostLeft(i, j));
         theNumberCell.css('background-color', getNumberBackgroundColor(board[i][j]));
@@ -60,6 +81,8 @@ function updateBoardView() {
       }
       hasMerge[i][j] = false;
     }
+  $(".number-cell").css('line-height', cellSideWidth + 'px');
+  $(".number-cell").css('font-size', 0.7 * cellSideWidth + 'px');
 }
 
 function generatorNewNumber() {
@@ -72,19 +95,19 @@ function generatorNewNumber() {
 
   var times = 0;
 
-  while (times < 50) {
+  while (times < cellSideWidth / 2) {
     if (board[randx][randy] == 0)
       break;
 
     randx = parseInt(Math.floor(Math.random() * 4));
     randy = parseInt(Math.floor(Math.random() * 4));
   }
-  if(times == 50) {
-    for(var i=0;i<4;i++) {
-      for(var j=0;j<4;j++) {
-        if(board[i][j] ==0) {
+  if (times == cellSideWidth / 2) {
+    for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+        if (board[i][j] == 0) {
           randx = i;
-          randy =j;
+          randy = j;
         }
       }
     }
@@ -101,6 +124,7 @@ function generatorNewNumber() {
 }
 
 $(document).keydown(function (event) {
+  event.preventDefault();
   switch (event.keyCode) {
     case 37: //left
       if (moveLeft()) {
@@ -130,6 +154,58 @@ $(document).keydown(function (event) {
       break;
   }
 });
+
+// 监听移动端手势滑动的事件
+document.addEventListener('touchstart', function (event) {
+  startX = event.touches[0].pageX;
+  startY = event.touches[0].pageY;
+})
+document.addEventListener('touchmove',function() {
+  event.preventDefault();  
+})
+document.addEventListener('touchend', function (event) {
+  endX = event.changedTouches[0].pageX;
+  endY = event.changedTouches[0].pageY;
+
+  var deltaX = endX - startX;
+  var deltaY = endY - startY;
+  if(Math.abs(deltaX) < 0.3*documentWidth && Math.abs(deltaY) < 0.3*documentWidth) {
+    // 判断一次滑动的正常状态
+    return;
+  }
+
+  // X轴上位移长，说明是横向滑动
+  if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      // 向右滑动
+      if (moveRight()) {
+        generatorNewNumber();
+        isgameover();
+      }
+    } else {
+      // 向左滑动
+       if (moveLeft()) {
+        generatorNewNumber();
+        isgameover();
+      }
+    }
+  } else {
+    // Y轴上位移长，说明是竖向滑动
+    if (deltaY > 0) {
+      // 向下滑动
+      if (moveDown()) {
+        generatorNewNumber();
+        isgameover();
+      }
+    } else {
+      // 向上滑动
+      if (moveUp()) {
+        generatorNewNumber();
+        isgameover();
+      }
+    }
+  }
+})
 
 // 游戏结束的函数
 function isgameover() {

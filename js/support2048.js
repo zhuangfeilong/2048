@@ -1,8 +1,13 @@
+documentWidth = window.screen.availWidth;
+containerWidth = 0.92 * documentWidth;
+cellSideWidth = 0.18 * documentWidth;
+cellSpace = 0.05 * documentWidth;
+
 function getPostTop(i, j) {
-  return 20 + i * 120;
+  return cellSpace + i * (cellSpace + cellSideWidth);
 }
 function getPostLeft(i, j) {
-  return 20 + j * 120;
+  return cellSpace + j * (cellSpace + cellSideWidth);
 }
 function getNumberBackgroundColor(number) {
   switch (number) {
@@ -113,13 +118,13 @@ function canMoveDown(board) {
 
 // 判断游戏是否结束
 function nomove(board) {
-  if(
+  if (
     canMoveLeft(board) ||
     canMoveRight(board) ||
     canMoveUp(board) ||
     canMoveDown(board)
   ) {
     return false;
-  } 
+  }
   return true;
 }
