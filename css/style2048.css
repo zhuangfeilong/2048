@@ -5,12 +5,12 @@
 header {
   display: block;
   margin: 0 auto;
-  width: 500px;
+  width: 100%;
   text-align: center;
 }
 header h1 {
   font-family: Arial;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: blod;
 }
 header #newgamebutton {
@@ -54,5 +54,5 @@ header p {
   font-weight: bold;
   line-height: 100px;
   text-align: center;
-  font-size: 70px;
+  font-size: 60px;
 }
