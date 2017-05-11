@@ -46,15 +46,16 @@ function prepareForMobile() {
     containerWidth = 500;
     cellSideWidth = 100;
     cellSpace = 20;
-  }
-  $("#container").css('width', containerWidth - 2 * cellSpace);
-  $("#container").css('height', containerWidth - 2 * cellSpace);
-  $("#container").css('padding', cellSpace);
-  $("#container").css('border-radius', containerWidth * 0.02);
+  } else {
+    $("#container").css('width', containerWidth - 2 * cellSpace);
+    $("#container").css('height', containerWidth - 2 * cellSpace);
+    $("#container").css('padding', cellSpace);
+    $("#container").css('border-radius', containerWidth * 0.02);
 
-  $(".grid-cell").css('width', cellSideWidth);
-  $(".grid-cell").css('height', cellSideWidth);
-  $(".grid-cell").css('border-radius', cellSideWidth * 0.02);
+    $(".grid-cell").css('width', cellSideWidth);
+    $(".grid-cell").css('height', cellSideWidth);
+    $(".grid-cell").css('border-radius', cellSideWidth * 0.02);
+  }
 }
 function updateBoardView() {
 
@@ -169,7 +170,7 @@ document.addEventListener('touchend', function (event) {
 
   var deltaX = endX - startX;
   var deltaY = endY - startY;
-  if(Math.abs(deltaX) < 0.3*documentWidth && Math.abs(deltaY) < 0.3*documentWidth) {
+  if (Math.abs(deltaX) < 0.3 * documentWidth && Math.abs(deltaY) < 0.3 * documentWidth) {
     // 判断一次滑动的正常状态
     return;
   }
@@ -179,12 +180,14 @@ document.addEventListener('touchend', function (event) {
     if (deltaX > 0) {
       // 向右滑动
       if (moveRight()) {
+        event.preventDefault();
         generatorNewNumber();
         isgameover();
       }
     } else {
       // 向左滑动
-       if (moveLeft()) {
+      if (moveLeft()) {
+        event.preventDefault();
         generatorNewNumber();
         isgameover();
       }
@@ -194,12 +197,14 @@ document.addEventListener('touchend', function (event) {
     if (deltaY > 0) {
       // 向下滑动
       if (moveDown()) {
+        event.preventDefault();
         generatorNewNumber();
         isgameover();
       }
     } else {
       // 向上滑动
       if (moveUp()) {
+        event.preventDefault();
         generatorNewNumber();
         isgameover();
       }
